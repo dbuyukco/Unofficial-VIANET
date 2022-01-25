@@ -378,6 +378,7 @@ class viae_net(torch.nn.Module):
         cbam_out = torch.cat([physical_layer, cbam_out], dim=2)
         if self.attention == True:
             cbam_out = self.self_attention(cbam_out)
-        out = self.Soft_Mask(cbam_out)
+        mask = self.Soft_Mask(cbam_out)
+        out = cbam_out * mask
         out = self.bidirectionalLSTM(out)
         return out
